@@ -1,6 +1,6 @@
 {
   "name": "learn-vllm",
-  "image": "vllm/vllm-openai:v0.10.0",
+  "image": "vllm/vllm-openai:v0.11.2",
   "mounts": [
     "source=/models,target=/models,type=bind,consistency=cached,readonly"
   ],
