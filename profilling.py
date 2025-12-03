@@ -2,7 +2,6 @@
 # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
 
 import os
-import time
 
 from vllm import LLM, SamplingParams
 
@@ -16,34 +15,26 @@ prompts = [
     "The capital of France is",
     "The future of AI is",
 ]
-# Create a sampling params object.
-sampling_params = SamplingParams(temperature=0.8, top_p=0.95)
 
+# Create a sampling params object.
+sampling_params = SamplingParams(
+    min_tokens=256,
+    max_tokens=256,
+)
 
 def main():
     # Create an LLM.
     model_name = "/models/Qwen3-4B"
-    llm = LLM(model=model_name, distributed_executor_backend="mp")
+    llm = LLM(
+        model=model_name,
+        distributed_executor_backend="mp"
+    )
 
     llm.start_profile()
 
-    # Generate texts from the prompts. The output is a list of RequestOutput
-    # objects that contain the prompt, generated text, and other information.
-    outputs = llm.generate(prompts, sampling_params)
+    _ = llm.generate(prompts, sampling_params)
 
     llm.stop_profile()
-
-    # Print the outputs.
-    print("-" * 50)
-    for output in outputs:
-        prompt = output.prompt
-        generated_text = output.outputs[0].text
-        print(f"Prompt: {prompt!r}\nGenerated text: {generated_text!r}")
-        print("-" * 50)
-
-    # Add a buffer to wait for profiler in the background process
-    # (in case MP is on) to finish writing profiling output.
-    time.sleep(10)
 
 
 if __name__ == "__main__":
