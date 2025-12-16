@@ -1,6 +1,8 @@
 {
   "name": "learn-vllm",
-  "image": "vllm/vllm-openai:v0.11.2",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
   "mounts": [
     "source=/models,target=/models,type=bind,consistency=cached,readonly"
   ],
@@ -10,4 +12,3 @@
     "--shm-size=16G"
   ]
 }
-
