@@ -44,6 +44,7 @@ def main():
 
     num_req = 16
     num_input_tokens = 16 * 1024
+    num_ouput_tokens = 256
 
     prompts = [
         {
@@ -52,7 +53,7 @@ def main():
         for _ in range(num_req)
     ]
 
-    sampling_params = SamplingParams(temperature=0.8, top_p=0.95)
+    sampling_params = SamplingParams(max_tokens=num_ouput_tokens)
 
     enable_profile = True
     if enable_profile:
